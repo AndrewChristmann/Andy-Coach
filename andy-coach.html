@@ -47,6 +47,26 @@
   .login-error.visible { display: block; }
   .login-footer { font-size: 11px; color: var(--text-dim); text-align: center; }
 
+  /* WELCOME SCREEN */
+  #welcome-screen { align-items: center; justify-content: flex-start; background: linear-gradient(135deg, #0f0f0f 0%, #1a1208 50%, #0f0f0f 100%); overflow-y: auto; }
+  .welcome-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 44px 40px; width: 100%; max-width: 580px; margin: 32px auto; display: flex; flex-direction: column; gap: 28px; }
+  .welcome-header { display: flex; align-items: center; gap: 16px; }
+  .welcome-avatar { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; flex-shrink: 0; }
+  .welcome-avatar-fallback { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--accent); background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+  .welcome-header-text h2 { font-size: 20px; font-weight: 700; }
+  .welcome-header-text p { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+  .welcome-divider { border: none; border-top: 1px solid var(--border); }
+  .welcome-section h3 { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .welcome-section p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+  .welcome-section p + p { margin-top: 10px; }
+  .welcome-section strong { color: var(--text); font-weight: 600; }
+  .prompt-grid { display: flex; flex-direction: column; gap: 8px; }
+  .prompt-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text-muted); cursor: pointer; font-family: var(--font); font-size: 13px; line-height: 1.5; padding: 12px 14px; text-align: left; transition: all 0.15s; }
+  .prompt-chip:hover { border-color: var(--accent); color: var(--text); background: var(--accent-dim); }
+  .prompt-chip .prompt-label { font-size: 10px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+  .welcome-cta { display: flex; flex-direction: column; gap: 10px; }
+  .welcome-note { font-size: 12px; color: var(--text-dim); text-align: center; line-height: 1.6; }
+
   /* CHAT */
   .chat-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
   .header-avatar { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; flex-shrink: 0; }
@@ -142,6 +162,7 @@
 
   @media (max-width: 600px) {
     .login-card { padding: 32px 24px; margin: 16px; }
+    .welcome-card { padding: 28px 20px; margin: 16px; }
     .chat-header { padding: 12px 14px; }
     .messages-container { padding: 16px 12px; }
     .input-area { padding: 12px 14px; }
@@ -171,6 +192,58 @@
       <button class="btn-primary" onclick="handleLogin()">Enter</button>
     </div>
     <div class="login-footer">Sessions are private by default. You choose what to share.</div>
+  </div>
+</div>
+
+<!-- WELCOME -->
+<div id="welcome-screen" class="screen">
+  <div class="welcome-card">
+    <div class="welcome-header">
+      <div id="welcome-avatar-container"></div>
+      <div class="welcome-header-text">
+        <h2>Andy Coach</h2>
+        <p id="welcome-greeting">Good to have you here.</p>
+      </div>
+    </div>
+
+    <hr class="welcome-divider" />
+
+    <div class="welcome-section">
+      <h3>What this is</h3>
+      <p>Andy Coach works the way Andy does — direct on pipeline, Socratic on strategy, and intolerant of hope as a plan. It's built for real situations, not hypotheticals.</p>
+      <p>The more specific you are, the more useful it gets. Vague language will get challenged. That's not a gotcha — it's how the work gets done.</p>
+    </div>
+
+    <div class="welcome-section">
+      <h3>Ways to start</h3>
+      <div class="prompt-grid" id="prompt-grid">
+        <button class="prompt-chip" onclick="startWithPrompt(this.dataset.prompt)" data-prompt="I have a deal I've been working and I'm not sure if it's real. Can I walk you through it?">
+          <div class="prompt-label">Deal Review</div>
+          I have a deal I've been working and I'm not sure if it's real. Can I walk you through it?
+        </button>
+        <button class="prompt-chip" onclick="startWithPrompt(this.dataset.prompt)" data-prompt="I have a quarterly gap and I need to figure out what's actually closeable before the end of the period.">
+          <div class="prompt-label">Pipeline & Forecast</div>
+          I have a quarterly gap and I need to figure out what's actually closeable before the end of the period.
+        </button>
+        <button class="prompt-chip" onclick="startWithPrompt(this.dataset.prompt)" data-prompt="I'm trying to figure out if I actually own this account or if I'm just servicing it. The dynamic is complicated.">
+          <div class="prompt-label">Account Ownership</div>
+          I'm trying to figure out if I actually own this account or if I'm just servicing it. The dynamic is complicated.
+        </button>
+        <button class="prompt-chip" onclick="startWithPrompt(this.dataset.prompt)" data-prompt="I have someone on my team I'm trying to develop. I want to think through how to coach them on a specific situation.">
+          <div class="prompt-label">Coaching a Team Member</div>
+          I have someone on my team I'm trying to develop. I want to think through how to coach them on a specific situation.
+        </button>
+        <button class="prompt-chip" onclick="startWithPrompt(this.dataset.prompt)" data-prompt="I'm stuck on a decision and I just need to think out loud before I move.">
+          <div class="prompt-label">Sounding Board</div>
+          I'm stuck on a decision and I just need to think out loud before I move.
+        </button>
+      </div>
+    </div>
+
+    <div class="welcome-cta">
+      <button class="btn-primary" onclick="enterChat()">Start Session →</button>
+      <p class="welcome-note">Sessions are private. Use the Share button inside if you want Andy to see the conversation.</p>
+    </div>
   </div>
 </div>
 
@@ -403,6 +476,7 @@ WHAT YOU ARE NOT
 let currentUser = null;
 let conversationHistory = [];
 let isStreaming = false;
+let pendingStartPrompt = null;
 let sharedSessions = JSON.parse(localStorage.getItem('ac_shared_sessions') || '[]');
 let allUsers = JSON.parse(localStorage.getItem('ac_users') || '[]');
 
@@ -415,6 +489,7 @@ function makeAvatarImg(cssClass) {
     const fb = document.createElement('div');
     const fbClass = cssClass
       .replace('login-avatar', 'login-avatar-fallback')
+      .replace('welcome-avatar', 'welcome-avatar-fallback')
       .replace('header-avatar', 'header-avatar-fallback')
       .replace('msg-avatar', 'msg-avatar-fallback');
     fb.className = fbClass;
@@ -426,6 +501,7 @@ function makeAvatarImg(cssClass) {
 
 function initAvatars() {
   document.getElementById('login-avatar-container').appendChild(makeAvatarImg('login-avatar'));
+  document.getElementById('welcome-avatar-container').appendChild(makeAvatarImg('welcome-avatar'));
   document.getElementById('header-avatar-container').appendChild(makeAvatarImg('header-avatar'));
 }
 
@@ -458,8 +534,23 @@ function handleLogin() {
     localStorage.setItem('ac_users', JSON.stringify(allUsers));
   }
 
+  const firstName = name.split(' ')[0];
+  const hour = new Date().getHours();
+  const timeGreet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('welcome-greeting').textContent = `${timeGreet}, ${firstName}.`;
+
+  showScreen('welcome-screen');
+}
+
+function startWithPrompt(prompt) {
+  pendingStartPrompt = prompt;
+  enterChat();
+}
+
+function enterChat() {
   showScreen('chat-screen');
-  initChat();
+  initChat(pendingStartPrompt);
+  pendingStartPrompt = null;
 }
 
 function showError(msg) {
@@ -471,6 +562,7 @@ function showError(msg) {
 function logout() {
   currentUser = null;
   conversationHistory = [];
+  pendingStartPrompt = null;
   document.getElementById('messages').innerHTML = '';
   document.getElementById('share-panel').classList.remove('visible');
   document.getElementById('login-name').value = '';
@@ -484,7 +576,7 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
 }
 
-function initChat() {
+function initChat(startPrompt) {
   conversationHistory = [];
   document.getElementById('messages').innerHTML = '';
   const firstName = currentUser.name.split(' ')[0];
@@ -499,7 +591,17 @@ If it's useful, I can show up in a few different ways today:
 
 Or just start talking and I'll read the situation. What's on your mind?`;
   appendMessage('andy', welcome);
-  document.getElementById('user-input').focus();
+
+  if (startPrompt) {
+    setTimeout(() => {
+      const input = document.getElementById('user-input');
+      input.value = startPrompt;
+      autoResize(input);
+      input.focus();
+    }, 150);
+  } else {
+    document.getElementById('user-input').focus();
+  }
 }
 
 function appendMessage(role, text) {
