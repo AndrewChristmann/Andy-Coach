@@ -30,13 +30,20 @@
 
   /* LOGIN */
   #login-screen { align-items: center; justify-content: center; background: linear-gradient(135deg, #0f0f0f 0%, #1a1208 50%, #0f0f0f 100%); }
-  .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; gap: 28px; }
-  .login-avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; display: block; }
-  .login-avatar-fallback { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent); background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; color: var(--accent); }
+  .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 44px 40px 40px; width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+  .login-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+  .login-avatar { width: 148px; height: 148px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; display: block; box-shadow: 0 0 0 6px var(--accent-dim); }
+  .login-avatar-fallback { width: 148px; height: 148px; border-radius: 50%; border: 3px solid var(--accent); background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 700; color: var(--accent); box-shadow: 0 0 0 6px var(--accent-dim); }
+  .greeting-wrap { display: flex; flex-direction: column; align-items: center; gap: 0; width: 100%; }
+  .greeting-bubble { position: relative; background: var(--andy-bubble); border: 1px solid var(--andy-border); border-radius: 14px; padding: 16px 20px; margin-top: 18px; text-align: left; }
+  .greeting-bubble::before { content: ''; position: absolute; top: -7px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 13px; height: 13px; background: var(--andy-bubble); border-left: 1px solid var(--andy-border); border-top: 1px solid var(--andy-border); }
+  .greeting-bubble p { font-size: 13.5px; line-height: 1.6; color: var(--text); }
+  .greeting-bubble p + p { margin-top: 8px; }
+  .greeting-bubble strong { color: var(--accent); font-weight: 600; }
   .login-title { text-align: center; }
-  .login-title h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
-  .login-title p { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
-  .login-form { width: 100%; display: flex; flex-direction: column; gap: 14px; }
+  .login-title h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin-top: 4px; }
+  .login-title p { font-size: 12px; color: var(--text-dim); margin-top: 4px; line-height: 1.5; }
+  .login-form { width: 100%; display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
   .field-label { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
   .field-group { display: flex; flex-direction: column; }
   input[type="text"], input[type="password"] { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: var(--font); font-size: 14px; padding: 12px 14px; outline: none; transition: border-color 0.15s; width: 100%; }
@@ -153,10 +160,18 @@
 <!-- LOGIN -->
 <div id="login-screen" class="screen active">
   <div class="login-card">
+    <div class="login-eyebrow">Andy Coach</div>
     <div id="login-avatar-container"></div>
+    <div class="greeting-wrap">
+      <div class="greeting-bubble">
+        <p>Good to see you. I'm <strong>Andy</strong> — well, an AI built on how Andy coaches: the probing, the pushback, the way he'd talk it through if you were in the room. No slides, no filters.</p>
+        <p>It's built from leading consulting and technology sales teams — the core use case — but it travels across domains. After almost 40 years, this is Andy's read on sales and the business world, and what separates winning teams.</p>
+        <p>One thing people ask: can Andy see what I write here? I can't see the content — this is your space unless you choose to share it, and if you do, it makes the coaching sharper for the next person too.</p>
+        <p>Enter your name and the access code below to get started.</p>
+      </div>
+    </div>
     <div class="login-title">
-      <h1>Andy Coach</h1>
-      <p>Private coaching in Andy's voice.<br>Built for people who've worked with him.</p>
+      <p>Coaching in Andy's voice — Challenger, Thinking Partner, Booster, or Sounding Board.</p>
     </div>
     <div class="login-form">
       <div class="field-group">
@@ -248,9 +263,6 @@ const CONFIG = {
   allowedNames: [],
   model: 'claude-sonnet-4-6',
   maxTokens: 1000,
-  // Your Cloudflare Worker URL — replace with the real one after deploying worker.js.
-  // It will look like: https://andy-coach-proxy.YOUR-SUBDOMAIN.workers.dev
-  workerEndpoint: 'https://restless-wave-43d0.andrew-christmann.workers.dev',
 };
 
 const SYSTEM_PROMPT = `You are Andy Coach — an AI coaching tool built in the voice, judgment, and style of Andy Christmann, a senior enterprise sales and business development leader. You are not a generic coach. You think, challenge, and coach the way Andy does: direct, grounded in delivery reality, and intolerant of hope as a strategy.
@@ -385,7 +397,7 @@ Andy has no tolerance for compliance without thinking. If someone just agrees wi
 
 ---
 
-SOCIAL OPENERS AND SMALL TALK\n\nPeople will sometimes open with a bit of small talk, or drift off-topic mid-conversation. That's normal colleague behavior, not a violation of your purpose. Engage for a couple of exchanges — give a real, brief answer, show some personality — then pivot back to the work yourself.\n\nDo not shut it down cold. Do not explain what you are or aren't for. That reads as a canned refusal, not Andy.\n\nIf someone asks something personal (weekends, hobbies, family), answer briefly and specifically — skiing at Whiteface, time in the Adirondacks and Lake Placid, the pool at home, hiking, farmers markets, watching your daughter Olivia's triathlon races. Olivia is getting married in Lake Placid on August 28, so wedding planning is fair game if it comes up. You're also retiring in late September (the date is soft, and you may keep doing some part-time work with Avanade) — that's fine to mention if someone asks about your plans or the long-term future of this tool. Don't invent details beyond this. Keep it to a sentence or two, not a story.\n\nIf it goes past 2-3 exchanges with no sign of getting to business, redirect with warmth: something like naming that you're enjoying the tangent but curious what's actually on their mind today. Not a policy statement.\n\n---\n\nCONVERSATION BEHAVIOR
+CONVERSATION BEHAVIOR
 
 - In pipeline/forecast conversations: assess first, then ask if you need specifics. Do not lead with discovery.
 - In strategy/development conversations: lead with a question. Let them frame the problem before you diagnose it.
@@ -589,10 +601,11 @@ async function sendMessage() {
   document.getElementById('header-status').textContent = 'Thinking…';
   showTyping();
   try {
-    const response = await fetch(CONFIG.workerEndpoint, {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true',
       },
       body: JSON.stringify({
         model: CONFIG.model,
